@@ -81,12 +81,7 @@ const portalLinks = [
   },
 ]
 
-const stats = [
-  { value: "50,000+", label: "Students" },
-  { value: "2,500+", label: "Faculty Members" },
-  { value: "150+", label: "Programs" },
-  { value: "95%", label: "Employment Rate" },
-]
+
 
 const universityHighlights = [
   {
