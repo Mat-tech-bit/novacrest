@@ -23,9 +23,18 @@ import {
   FileText,
   ShieldCheck,
   Zap,
+  Building2,
+  BarChart3,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+
+const stats = [
+  { value: "98%", label: "GRADUATION RATE" },
+  { value: "50+", label: "GLOBAL PARTNERS" },
+  { value: "12:1", label: "STUDENT RATIO" },
+  { value: "20+", label: "RESEARCH HUBS" },
+]
 
 const portalLinks = [
   {
@@ -402,11 +411,4 @@ export default function HomePage() {
   )
 }
 
-const stats = [
-  { value: "98%", label: "GRADUATION RATE" },
-  { value: "50+", label: "GLOBAL PARTNERS" },
-  { value: "12:1", label: "STUDENT RATIO" },
-  { value: "20+", label: "RESEARCH HUBS" },
-]
 
-import { Building2, BarChart3, LogIn, FileText, MapPin } from "lucide-react"
