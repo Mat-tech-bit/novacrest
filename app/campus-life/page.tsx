@@ -59,7 +59,7 @@ export default function CampusLifePage() {
                <Button size="lg" className="h-16 px-10 rounded-2xl font-black text-lg bg-primary text-white shadow-xl shadow-primary/20" asChild>
                  <Link href="/contact">Book a Campus Tour</Link>
                </Button>
-               <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl font-black text-lg border-white/20 text-white hover:bg-white hover:text-slate-950">
+               <Button size="lg" variant="ghost" className="h-16 px-10 rounded-2xl font-black text-lg border border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950">
                  Student Organizations
                </Button>
             </div>

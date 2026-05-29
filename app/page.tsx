@@ -253,7 +253,7 @@ export default function HomePage() {
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="h-14 sm:h-16 px-8 sm:px-10 rounded-2xl text-base sm:text-lg font-black border-white/20 bg-white/5 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
+                <Button size="lg" variant="ghost" className="h-14 sm:h-16 px-8 sm:px-10 rounded-2xl text-base sm:text-lg font-black border border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
                   <Link href="/auth/login">
                     Student Login
                     <LogIn className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -467,7 +467,7 @@ export default function HomePage() {
               <Button size="lg" className="h-16 px-12 rounded-2xl text-lg font-black bg-white text-slate-950 hover:bg-primary hover:text-white transition-all w-full md:w-auto shadow-2xl shadow-white/5" asChild>
                 <Link href="/auth/signup">Apply for Admission</Link>
               </Button>
-              <Button size="lg" variant="outline" className="h-16 px-12 rounded-2xl text-lg font-black border-white/20 text-white hover:bg-white hover:text-slate-950 transition-all w-full md:w-auto backdrop-blur-md" asChild>
+              <Button size="lg" variant="ghost" className="h-16 px-12 rounded-2xl text-lg font-black border border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950 transition-all w-full md:w-auto backdrop-blur-md" asChild>
                 <Link href="/contact">Talk to an Advisor</Link>
               </Button>
             </div>

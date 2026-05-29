@@ -164,7 +164,7 @@ export default function AdmissionsPage() {
                 <Button className="w-full h-14 rounded-2xl font-black bg-primary text-white" asChild>
                   <Link href="/contact">Download Fee Schedule (PDF)</Link>
                 </Button>
-                <Button variant="outline" className="w-full h-14 rounded-2xl font-black border-white/10 text-white hover:bg-white hover:text-slate-950">
+                <Button variant="ghost" className="w-full h-14 rounded-2xl font-black border border-white/10 bg-white/10 text-white hover:bg-white hover:text-slate-950">
                   Scholarship Finder
                 </Button>
               </div>
