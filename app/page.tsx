@@ -194,9 +194,20 @@ export default function HomePage() {
                     <ChevronRight className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-black border-white/30 text-white hover:bg-white hover:text-black transition-all" asChild>
+                <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-black border-white/20 bg-white/5 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm" asChild>
                   <Link href="#">View 2026/27 Prospectus</Link>
                 </Button>
+                <div className="w-full sm:w-auto pt-4 sm:pt-0">
+                  <Link 
+                    href="/auth/login" 
+                    className="group flex items-center gap-3 text-white/80 hover:text-primary transition-colors font-black text-sm uppercase tracking-widest"
+                  >
+                    <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-all">
+                      <LogIn className="w-5 h-5" />
+                    </div>
+                    Student Hub Sign In
+                  </Link>
+                </div>
               </motion.div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 pt-16">
