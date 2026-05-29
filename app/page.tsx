@@ -219,18 +219,21 @@ export default function HomePage() {
 
       <main className="flex-grow">
         {/* ─── HERO SECTION ─────────────────────────────────────────── */}
-        <section className="relative min-h-[90vh] lg:min-h-screen flex items-center overflow-hidden bg-slate-950">
+        <section className="relative flex items-center overflow-hidden bg-slate-950 pt-32 pb-24 lg:pt-48 lg:pb-32">
           {/* Background Layer: Deep Texture & Glow */}
           <div className="absolute inset-0">
             <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756ebafe1?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
             
+            {/* Professional Grid Overlay */}
+            <div className="absolute inset-0 opacity-[0.15] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+
             {/* Dynamic Glow Accents */}
             <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
             <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[140px]" />
           </div>
 
-          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative pt-12 lg:pt-20 pb-12">
+          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
             <div className="flex flex-col gap-12 lg:gap-20">
               {/* Hero Content */}
               <div className="max-w-4xl space-y-8 lg:space-y-10 text-center lg:text-left mx-auto lg:mx-0">
