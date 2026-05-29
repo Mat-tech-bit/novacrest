@@ -119,16 +119,35 @@ const recentNews = [
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background flex flex-col selection:bg-primary/20">
+      {/* ─── INSTITUTIONAL TOP BAR ─────────────────────────────────── */}
+      <div className="bg-slate-950 text-white py-2 px-4 lg:px-8 border-b border-white/5">
+        <div className="container mx-auto flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em]">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 text-primary animate-pulse">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              Campus Status: Normal
+            </div>
+            <Link href="#" className="hidden sm:inline-flex items-center gap-2 hover:text-primary transition-colors">
+              <MapPin className="w-3 h-3" /> Campus Map
+            </Link>
+          </div>
+          <div className="flex items-center gap-6">
+            <span className="hidden sm:inline opacity-40">Accredited by AU-CARES</span>
+            <Link href="#" className="hover:text-primary transition-colors">Emergency Info</Link>
+          </div>
+        </div>
+      </div>
+
       {/* ─── STICKY HEADER ────────────────────────────────────────── */}
       <header className="sticky top-0 z-[100] border-b border-border/40 bg-background/60 backdrop-blur-2xl">
         <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
-              <GraduationCap className="w-7 h-7 text-primary-foreground" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
+              <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-primary-foreground" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-black text-foreground tracking-tight leading-none">NOVACREST</h1>
-              <p className="text-[10px] text-primary font-bold uppercase tracking-[0.2em] mt-1">UNIVERSITY</p>
+            <div className="flex flex-col">
+              <h1 className="text-lg sm:text-xl font-black text-foreground tracking-tight leading-none">NOVACREST</h1>
+              <p className="text-[9px] sm:text-[10px] text-primary font-bold uppercase tracking-[0.2em] mt-0.5 sm:mt-1">UNIVERSITY</p>
             </div>
           </Link>
           
@@ -194,20 +213,12 @@ export default function HomePage() {
                     <ChevronRight className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-black border-white/20 bg-white/5 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm" asChild>
-                  <Link href="#">View 2026/27 Prospectus</Link>
-                </Button>
-                <div className="w-full sm:w-auto pt-4 sm:pt-0">
-                  <Link 
-                    href="/auth/login" 
-                    className="group flex items-center gap-3 text-white/80 hover:text-primary transition-colors font-black text-sm uppercase tracking-widest"
-                  >
-                    <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-all">
-                      <LogIn className="w-5 h-5" />
-                    </div>
-                    Student Hub Sign In
+                <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-black border-white/20 bg-white/5 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
+                  <Link href="/auth/login">
+                    Student Login
+                    <LogIn className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                </div>
+                </Button>
               </motion.div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 pt-16">
