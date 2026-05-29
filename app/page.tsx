@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import {
   GraduationCap,
@@ -25,9 +25,17 @@ import {
   Zap,
   Building2,
   BarChart3,
+  Microscope,
+  Stethoscope,
+  Cpu,
+  Trophy,
+  Calendar,
+  ArrowRight,
+  Menu,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
 const stats = [
   { value: "98%", label: "GRADUATION RATE" },
@@ -36,112 +44,100 @@ const stats = [
   { value: "20+", label: "RESEARCH HUBS" },
 ]
 
-const portalLinks = [
+const academicPrograms = [
   {
-    href: "/auth/login",
-    icon: LogIn,
-    title: "Student Hub",
-    description: "Access your courses, grades, and schedules in one centralized dashboard.",
-    color: "bg-primary/10 text-primary",
+    title: "Engineering & Technology",
+    icon: Building2,
+    desc: "Innovative solutions for complex infrastructure and sustainable development.",
+    color: "bg-blue-600",
   },
   {
-    href: "/auth/signup",
-    icon: UserPlus,
-    title: "Admissions Office",
-    description: "Begin your journey, track your application, and explore admissions requirements.",
-    color: "bg-accent/10 text-accent",
+    title: "Computer Science & AI",
+    icon: Cpu,
+    desc: "Master the algorithms shaping the next century of digital transformation.",
+    color: "bg-indigo-600",
   },
   {
-    href: "/auth/admin",
-    icon: ShieldCheck,
-    title: "Faculty & Staff Portal",
-    description: "Manage research, grading, and departmental resources securely.",
-    color: "bg-foreground/10 text-foreground",
+    title: "Business Administration",
+    icon: BarChart3,
+    desc: "Developing leadership frameworks for sustainable global trade and ethics.",
+    color: "bg-emerald-600",
   },
   {
-    href: "/auth/verify-email",
-    icon: Mail,
-    title: "Institutional Mail",
-    description: "Access your official university email and communication channels.",
-    color: "bg-chart-1/10 text-chart-1",
-  },
-  {
-    href: "/auth/account-recovery",
-    icon: LifeBuoy,
-    title: "IT Support Desk",
-    description: "Get technical assistance for your accounts and digital resources.",
-    color: "bg-destructive/10 text-destructive",
-  },
-  {
-    href: "/auth/two-factor-setup",
-    icon: Zap,
-    title: "Digital Security",
-    description: "Manage your account security and two-factor authentication settings.",
-    color: "bg-chart-3/10 text-chart-3",
+    title: "Health Sciences",
+    icon: Stethoscope,
+    desc: "Advancing medical care through research-driven clinical excellence.",
+    color: "bg-rose-600",
   },
 ]
 
-
-
-const universityHighlights = [
+const events = [
   {
-    icon: Zap,
-    title: "Cutting-Edge Research",
-    description: "Leading the way in innovation with state-of-the-art labs and world-renowned researchers.",
+    title: "Annual Research Symposium 2026",
+    date: "June 15, 2026",
+    category: "Academic",
+    image: "https://images.unsplash.com/photo-1475721027187-402ad2989a3b?auto=format&fit=crop&q=80&w=800",
   },
   {
-    icon: Users,
-    title: "Vibrant Campus Life",
-    description: "A diverse and inclusive community with over 200 student organizations and clubs.",
+    title: "Innovators' Hackathon",
+    date: "July 02, 2026",
+    category: "Competition",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800",
   },
   {
-    icon: Globe,
-    title: "Global Alumni Network",
-    description: "Join a network of over 200,000 alumni making an impact across the globe.",
+    title: "Fall Semester Orientation",
+    date: "August 20, 2026",
+    category: "Campus Life",
+    image: "https://images.unsplash.com/photo-1523050335102-c8845180f3bd?auto=format&fit=crop&q=80&w=800",
   },
 ]
 
 const faculties = [
   { name: "Science", icon: Zap, count: "12 Departments", color: "bg-blue-500" },
   { name: "Engineering", icon: Building2, count: "8 Departments", color: "bg-orange-500" },
-  { name: "Medicine", icon: Sparkles, icon2: Users, count: "15 Specialized Fields", color: "bg-red-500" },
+  { name: "Medicine", icon: Sparkles, count: "15 Specialized Fields", color: "bg-red-500" },
   { name: "Business", icon: BarChart3, count: "6 Programs", color: "bg-emerald-500" },
   { name: "Law", icon: ShieldCheck, count: "4 Departments", color: "bg-indigo-500" },
   { name: "Arts & Humanities", icon: BookOpen, count: "10 Departments", color: "bg-purple-500" },
 ]
 
-const recentNews = [
-  { id: 1, date: "May 25, 2026", title: "NovaCrest Ranks #1 in Sustainable Energy Research", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" },
-  { id: 2, date: "May 20, 2026", title: "New Global Partnership with European Research Council", image: "https://images.unsplash.com/photo-1523050335102-c8845180f3bd?auto=format&fit=crop&q=80&w=800" },
-  { id: 3, date: "May 15, 2026", title: "Innovators Fund Awarded to 15 Student Entrepreneurs", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" },
-]
-
 export default function HomePage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-background flex flex-col selection:bg-primary/20">
       {/* ─── INSTITUTIONAL TOP BAR ─────────────────────────────────── */}
-      <div className="bg-slate-950 text-white py-2 px-4 lg:px-8 border-b border-white/5">
-        <div className="container mx-auto flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em]">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 text-primary animate-pulse">
+      <div className="bg-slate-950 text-white border-b border-white/5 overflow-hidden">
+        <div className="container mx-auto max-w-7xl flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] h-10 px-4 lg:px-8">
+          <div className="hidden sm:flex items-center gap-6 shrink-0">
+            <div className="flex items-center gap-2 text-primary animate-pulse font-black">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               Campus Status: Normal
             </div>
-            <Link href="#" className="hidden sm:inline-flex items-center gap-2 hover:text-primary transition-colors">
+            <Link href="/contact" className="inline-flex items-center gap-2 hover:text-primary transition-colors">
               <MapPin className="w-3 h-3" /> Campus Map
             </Link>
           </div>
-          <div className="flex items-center gap-6">
-            <span className="hidden sm:inline opacity-40">Accredited by AU-CARES</span>
-            <Link href="#" className="hover:text-primary transition-colors">Emergency Info</Link>
+          
+          <div className="flex sm:hidden items-center gap-4 overflow-x-auto no-scrollbar whitespace-nowrap py-2">
+            <div className="flex items-center gap-2 text-primary font-black">
+               Normal
+            </div>
+            <Link href="/contact" className="hover:text-primary transition-colors">Map</Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">Emergency</Link>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-6 shrink-0">
+            <span className="opacity-40 italic">Global Accreditation: AU-CARES</span>
+            <Link href="/contact" className="hover:text-primary transition-colors border-l border-white/10 pl-6">Emergency Info</Link>
           </div>
         </div>
       </div>
 
       {/* ─── STICKY HEADER ────────────────────────────────────────── */}
       <header className="sticky top-0 z-[100] border-b border-border/40 bg-background/60 backdrop-blur-2xl">
-        <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+        <div className="container mx-auto max-w-7xl px-4 lg:px-8 h-20 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-4 group shrink-0">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
               <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-primary-foreground" />
             </div>
@@ -152,42 +148,86 @@ export default function HomePage() {
           </Link>
           
           <nav className="hidden lg:flex items-center gap-10">
-            {["Academics", "Admissions", "Research", "Campus Life", "Alumni"].map((item) => (
-              <Link key={item} href="#" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors relative group">
-                {item}
+            {[
+              { n: "Academics", h: "/academics" },
+              { n: "Admissions", h: "/admissions" },
+              { n: "Campus Life", h: "/campus-life" },
+              { n: "Contact", h: "/contact" }
+            ].map((item) => (
+              <Link key={item.n} href={item.h} className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors relative group">
+                {item.n}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="hidden border-transparent hover:bg-muted md:flex font-bold" asChild>
-              <Link href="/auth/login">Portal Login</Link>
-            </Button>
-            <Button className="rounded-full px-8 h-12 font-bold shadow-xl shadow-primary/25" asChild>
-              <Link href="/auth/signup">Apply Today</Link>
+            <div className="hidden lg:flex items-center gap-4">
+              <Button variant="ghost" className="border-transparent hover:bg-muted font-bold" asChild>
+                <Link href="/auth/login">Portal Login</Link>
+              </Button>
+              <Button className="rounded-full px-8 h-12 font-bold shadow-xl shadow-primary/25 bg-primary hover:bg-primary/90 text-white" asChild>
+                <Link href="/auth/signup">Apply Today</Link>
+              </Button>
+            </div>
+            <Button variant="outline" size="icon" className="lg:hidden rounded-xl h-10 w-10" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <Menu className="w-5 h-5" />
             </Button>
           </div>
         </div>
+
+        {/* Mobile Nav Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="lg:hidden bg-background border-b border-border/40 overflow-hidden"
+            >
+              <div className="px-4 py-8 space-y-6">
+                {[
+                  { n: "Academics", h: "/academics" },
+                  { n: "Admissions", h: "/admissions" },
+                  { n: "Campus Life", h: "/campus-life" },
+                  { n: "Contact", h: "/contact" },
+                  { n: "Student Portal", h: "/auth/login" }
+                ].map((item) => (
+                  <Link 
+                    key={item.n} 
+                    href={item.h} 
+                    className="block text-2xl font-black text-foreground hover:text-primary transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.n}
+                  </Link>
+                ))}
+                <Button className="w-full h-14 rounded-2xl font-black text-lg shadow-xl shadow-primary/20 bg-primary text-white" asChild>
+                  <Link href="/auth/signup">Apply Today</Link>
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <main className="flex-grow">
         {/* ─── HERO SECTION ─────────────────────────────────────────── */}
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden">
           <div className="absolute inset-0 bg-slate-950">
             <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756ebafe1?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
           </div>
 
-          <div className="container mx-auto px-4 lg:px-8 relative pt-10">
-            <div className="max-w-4xl space-y-10">
+          <div className="container mx-auto max-w-7xl px-4 lg:px-8 relative pt-10">
+            <div className="max-w-4xl space-y-10 text-left">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 className="space-y-6"
               >
-                <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-black tracking-widest uppercase">
+                <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black tracking-widest uppercase">
                   <Sparkles className="w-4 h-4 text-primary" />
                   Shaping Tomorrow&apos;s Leaders Today
                 </div>
@@ -196,7 +236,7 @@ export default function HomePage() {
                   BE THE <span className="text-primary italic">FUTURE</span> <br /> OF INNOVATION.
                 </h1>
                 
-                <p className="text-xl lg:text-2xl text-white/70 max-w-2xl font-medium leading-relaxed">
+                <p className="text-lg lg:text-2xl text-white/70 max-w-2xl font-medium leading-relaxed">
                   Join a global community of thinkers, creators, and leaders at Africa&apos;s leading research-driven university. Your journey to excellence starts here.
                 </p>
               </motion.div>
@@ -205,26 +245,26 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="flex flex-wrap items-center gap-6"
+                className="flex flex-wrap items-center gap-4 sm:gap-6"
               >
-                <Button size="lg" className="h-16 px-10 rounded-2xl text-lg font-black shadow-2xl shadow-primary/40 group" asChild>
+                <Button size="lg" className="h-14 sm:h-16 px-8 sm:px-10 rounded-2xl text-base sm:text-lg font-black shadow-2xl shadow-primary/40 group bg-primary text-white hover:bg-primary/90" asChild>
                   <Link href="/auth/signup">
                     Start Application
-                    <ChevronRight className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-black border-white/20 bg-white/5 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
+                <Button size="lg" variant="outline" className="h-14 sm:h-16 px-8 sm:px-10 rounded-2xl text-base sm:text-lg font-black border-white/20 bg-white/5 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
                   <Link href="/auth/login">
                     Student Login
-                    <LogIn className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <LogIn className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
               </motion.div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 pt-16">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 pt-16 border-t border-white/10">
                 {stats.map((stat) => (
                   <div key={stat.label} className="space-y-1">
-                    <div className="text-4xl font-black text-white">{stat.value}</div>
+                    <div className="text-3xl sm:text-4xl font-black text-white">{stat.value}</div>
                     <div className="text-[10px] font-bold text-primary uppercase tracking-widest">{stat.label}</div>
                   </div>
                 ))}
@@ -233,37 +273,98 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ─── FACULTIES GRID ───────────────────────────────────────── */}
-        <section className="py-32 bg-slate-50">
-          <div className="container mx-auto px-4 lg:px-8">
-            <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
-              <div className="max-w-2xl space-y-4 text-left">
-                <h2 className="text-xs font-black text-primary uppercase tracking-[0.3em]">Academic Excellence</h2>
-                <h3 className="text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-none">
-                  World-Class Faculties <br /> & Research Centers.
-                </h3>
-              </div>
-              <Button variant="link" className="text-primary font-black uppercase tracking-widest group">
-                All Departments <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-              </Button>
+        {/* ─── ACADEMIC PROGRAMS GRID ──────────────────────────────── */}
+        <section className="py-24 sm:py-32 bg-slate-50">
+          <div className="container mx-auto max-w-7xl px-4 lg:px-8">
+            <div className="max-w-3xl mb-16 sm:mb-20 space-y-4">
+              <h2 className="text-xs font-black text-primary uppercase tracking-[0.3em]">Major Fields of Study</h2>
+              <h3 className="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">
+                Academic Programs <br className="hidden sm:block" /> Built for the Real World.
+              </h3>
+              <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-2xl">
+                Explore our diverse range of industry-aligned programs designed to prepare you for global impact.
+              </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {faculties.map((f, i) => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {academicPrograms.map((prog, i) => (
                 <motion.div
-                  key={f.name}
+                  key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="group p-10 bg-white rounded-[32px] border border-slate-200 hover:border-primary/40 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                  className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-primary/30 hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
                 >
-                  <div className={`w-16 h-16 rounded-2xl ${f.color} flex items-center justify-center mb-8 shadow-xl shadow-${f.color.split('-')[1]}-200`}>
-                    <f.icon className="w-8 h-8 text-white" />
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-white ${prog.color} shadow-lg shadow-black/5`}>
+                    <prog.icon className="w-6 h-6" />
                   </div>
-                  <h4 className="text-2xl font-black text-slate-900 group-hover:text-primary transition-colors">{f.name}</h4>
-                  <p className="text-slate-500 font-medium mt-2">{f.count}</p>
-                  <div className="h-0.5 w-12 bg-slate-100 group-hover:w-full group-hover:bg-primary/20 transition-all duration-700 mt-8" />
+                  <h4 className="text-xl font-black text-slate-900 mb-3 group-hover:text-primary transition-colors">
+                    {prog.title}
+                  </h4>
+                  <p className="text-slate-500 font-medium text-sm leading-relaxed mb-8 flex-grow">
+                    {prog.desc}
+                  </p>
+                  <Link 
+                    href="/academics" 
+                    className="inline-flex items-center text-xs font-black uppercase tracking-widest text-primary group-hover:gap-3 transition-all"
+                  >
+                    Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── LATEST NEWS & CAMPUS EVENTS ───────────────────────────── */}
+        <section className="py-24 sm:py-32 bg-white">
+          <div className="container mx-auto max-w-7xl px-4 lg:px-8">
+            <div className="flex flex-col sm:flex-row items-end justify-between mb-16 gap-8">
+              <div className="max-w-2xl space-y-4">
+                <h2 className="text-xs font-black text-primary uppercase tracking-[0.3em]">Happenings</h2>
+                <h3 className="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">
+                  News & Campus Events.
+                </h3>
+              </div>
+              <Button variant="link" className="text-primary font-black uppercase tracking-widest p-0 h-auto group" asChild>
+                <Link href="/academics">
+                  All Events <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 overflow-x-auto sm:overflow-visible no-scrollbar pb-8 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
+              {events.map((event, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="min-w-[300px] sm:min-w-0 group cursor-pointer"
+                >
+                  <div className="relative h-64 sm:h-72 lg:h-80 rounded-[40px] overflow-hidden mb-8 shadow-lg shadow-black/5">
+                    <img 
+                      src={event.image} 
+                      alt={event.title} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute top-6 left-6 flex flex-col gap-2">
+                       <span className="px-5 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black tracking-widest text-slate-900 shadow-sm">
+                        {event.date}
+                      </span>
+                      <span className="px-5 py-2 bg-primary/90 backdrop-blur-md rounded-full text-[10px] font-black tracking-widest text-white shadow-sm self-start">
+                        {event.category}
+                      </span>
+                    </div>
+                  </div>
+                  <h4 className="text-2xl font-black text-slate-950 group-hover:text-primary transition-colors leading-tight mb-4">
+                    {event.title}
+                  </h4>
+                  <div className="flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest group-hover:gap-4 transition-all">
+                    Register for Event <ChevronRight className="w-4 h-4" />
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -273,10 +374,10 @@ export default function HomePage() {
         {/* ─── DIGITAL PORTAL ACTION ────────────────────────────────── */}
         <section className="py-24 relative overflow-hidden bg-primary">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_50%,white_0%,transparent_50%)]" />
-          <div className="container mx-auto px-4 lg:px-8 relative flex flex-col lg:flex-row items-center justify-between gap-12">
+          <div className="container mx-auto max-w-7xl px-4 lg:px-8 relative flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="max-w-2xl text-white space-y-6">
               <h3 className="text-4xl lg:text-6xl font-black tracking-tight leading-none">
-                Seamless Digital Gateway <br /> for Every Student.
+                Seamless Digital Gateway <br className="hidden sm:block" /> for Every Student.
               </h3>
               <p className="text-lg text-white/80 font-medium leading-relaxed">
                 NovaCrest University is fully digital. Manage your courses, access library resources, and handle academic administration from anywhere in the world.
@@ -291,78 +392,96 @@ export default function HomePage() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="w-40 h-40 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex flex-col items-center justify-center lg:mt-12 group transition-all hover:-rotate-6">
+              <motion.div 
+                whileHover={{ rotate: -6 }}
+                className="w-36 h-36 sm:w-40 sm:h-40 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex flex-col items-center justify-center lg:mt-12 transition-all"
+              >
                 <FileText className="w-8 h-8 text-white mb-2" />
-                <p className="text-[10px] font-black tracking-widest text-white/60">RESOURCES</p>
-              </div>
-              <div className="w-40 h-40 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex flex-col items-center justify-center group transition-all hover:rotate-6">
+                <p className="text-[10px] font-black tracking-widest text-white/60 uppercase">RESOURCES</p>
+              </motion.div>
+              <motion.div 
+                whileHover={{ rotate: 6 }}
+                className="w-36 h-36 sm:w-40 sm:h-40 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex flex-col items-center justify-center transition-all"
+              >
                 <Users className="w-8 h-8 text-white mb-2" />
-                <p className="text-[10px] font-black tracking-widest text-white/60">COMMUNITY</p>
-              </div>
+                <p className="text-[10px] font-black tracking-widest text-white/60 uppercase">COMMUNITY</p>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* ─── LATEST UPDATES ────────────────────────────────────────── */}
-        <section className="py-32">
-          <div className="container mx-auto px-4 lg:px-8">
-            <div className="text-center mb-20 space-y-4">
-              <h2 className="text-xs font-black text-primary uppercase tracking-[0.3em]">Latest Happenings</h2>
-              <h3 className="text-4xl lg:text-5xl font-black text-slate-950 tracking-tight">University News & Events.</h3>
+        {/* ─── FACULTIES GRID ───────────────────────────────────────── */}
+        <section className="py-24 sm:py-32 bg-slate-50">
+          <div className="container mx-auto max-w-7xl px-4 lg:px-8">
+            <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+              <div className="max-w-2xl space-y-4">
+                <h2 className="text-xs font-black text-primary uppercase tracking-[0.3em]">Academic Excellence</h2>
+                <h3 className="text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-none">
+                  World-Class Faculties <br className="hidden sm:block" /> & Research Centers.
+                </h3>
+              </div>
+              <Button variant="link" className="text-primary font-black uppercase tracking-widest group p-0 h-auto" asChild>
+                <Link href="/academics">
+                  All Departments <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-12">
-              {recentNews.map((news) => (
-                <div key={news.id} className="group cursor-pointer">
-                  <div className="relative h-64 overflow-hidden rounded-[32px] mb-8">
-                    <img src={news.image} alt={news.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    <div className="absolute top-6 left-6 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black tracking-widest text-slate-900">
-                      {news.date}
-                    </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {faculties.map((f, i) => (
+                <motion.div
+                  key={f.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group p-10 bg-white rounded-[32px] border border-slate-200 hover:border-primary/40 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                >
+                  <div className={`w-16 h-16 rounded-2xl ${f.color} flex items-center justify-center mb-8 shadow-xl shadow-black/5`}>
+                    <f.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h4 className="text-xl font-bold text-slate-950 group-hover:text-primary transition-colors leading-tight">
-                    {news.title}
+                  <h4 className="text-2xl font-black text-slate-900 group-hover:text-primary transition-colors leading-tight">
+                    {f.name}
                   </h4>
-                  <div className="flex items-center gap-2 mt-4 text-primary font-black uppercase text-xs tracking-widest group-hover:gap-4 transition-all">
-                    Read Full Story <ChevronRight className="w-4 h-4" />
-                  </div>
-                </div>
+                  <p className="text-slate-500 font-medium mt-2">{f.count}</p>
+                  <div className="h-0.5 w-12 bg-slate-100 group-hover:w-full group-hover:bg-primary/20 transition-all duration-700 mt-8" />
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
         {/* ─── CALL TO ACTION BAR ────────────────────────────────────── */}
-        <section className="container mx-auto px-4 lg:px-8 pb-32">
+        <section className="container mx-auto max-w-7xl px-4 lg:px-8 pb-32">
           <div className="bg-slate-950 rounded-[48px] p-12 lg:p-24 relative overflow-hidden text-center lg:text-left flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary rounded-full blur-[140px] opacity-20 -mr-48 -mt-48" />
             <div className="space-y-6 relative z-10 max-w-xl">
-              <h2 className="text-4xl lg:text-6xl font-black text-white leading-none tracking-tighter">
-                Ready to Join <br /> Our <span className="text-primary underline underline-offset-8 decoration-white/20">Elite</span> Class?
+              <h2 className="text-4xl lg:text-6xl font-black text-white leading-[0.9] tracking-tighter">
+                Ready to Join <br className="hidden sm:block" /> Our <span className="text-primary underline underline-offset-8 decoration-white/20 italic">Elite</span> Class?
               </h2>
               <p className="text-xl text-white/50 font-medium">
                 Admissions for the upcoming 2026/2027 semester close on August 30th. Secure your spot in the future.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 relative z-10 w-full lg:w-auto">
-              <Button size="lg" className="h-16 px-12 rounded-2xl text-lg font-black bg-white text-slate-950 hover:bg-primary hover:text-white transition-all w-full md:w-auto" asChild>
+              <Button size="lg" className="h-16 px-12 rounded-2xl text-lg font-black bg-white text-slate-950 hover:bg-primary hover:text-white transition-all w-full md:w-auto shadow-2xl shadow-white/5" asChild>
                 <Link href="/auth/signup">Apply for Admission</Link>
               </Button>
-              <Button size="lg" variant="outline" className="h-16 px-12 rounded-2xl text-lg font-black border-white/20 text-white hover:border-white transition-all w-full md:w-auto">
-                Talk to an Advisor
+              <Button size="lg" variant="outline" className="h-16 px-12 rounded-2xl text-lg font-black border-white/20 text-white hover:bg-white hover:text-slate-950 transition-all w-full md:w-auto backdrop-blur-md" asChild>
+                <Link href="/contact">Talk to an Advisor</Link>
               </Button>
             </div>
           </div>
         </section>
       </main>
 
-      {/* ─── STICKY FOOTER NAVIGATION ─────────────────────────────── */}
+      {/* ─── FOOTER ─────────────────────────────────────────────── */}
       <footer className="bg-white border-t border-slate-100 pt-20 pb-12 overflow-hidden">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto max-w-7xl px-4 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-12 mb-20 text-left">
             <div className="col-span-2 lg:col-span-2 space-y-8">
-              <Link href="/" className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center">
+              <Link href="/" className="flex items-center gap-4 group">
+                <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
                   <GraduationCap className="w-7 h-7 text-white" />
                 </div>
                 <h1 className="text-2xl font-black text-slate-900 tracking-tighter">NOVACREST</h1>
@@ -372,7 +491,7 @@ export default function HomePage() {
               </p>
               <div className="flex gap-4">
                 {[Facebook, Twitter, Instagram, Linkedin, Youtube].map((Icon, i) => (
-                  <button key={i} className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                  <button key={i} className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm">
                     <Icon className="w-5 h-5" />
                   </button>
                 ))}
@@ -380,8 +499,8 @@ export default function HomePage() {
             </div>
             
             <div className="space-y-6">
-              <h5 className="font-black text-xs uppercase tracking-[0.2em] text-slate-400">University</h5>
-              <ul className="space-y-4 font-bold text-slate-600">
+              <h5 className="font-black text-[10px] uppercase tracking-[0.2em] text-slate-400">University</h5>
+              <ul className="space-y-4 font-bold text-sm text-slate-600">
                 {["History", "Research Area", "Staff Directory", "Careers", "Sustainability"].map(item => (
                   <li key={item}><Link href="#" className="hover:text-primary transition-colors">{item}</Link></li>
                 ))}
@@ -389,25 +508,36 @@ export default function HomePage() {
             </div>
             
             <div className="space-y-6">
-              <h5 className="font-black text-xs uppercase tracking-[0.2em] text-slate-400">Admissions</h5>
-              <ul className="space-y-4 font-bold text-slate-600">
-                {["Undergraduate", "Postgraduate", "Tuition & Fees", "Scholarships", "International"].map(item => (
-                  <li key={item}><Link href="#" className="hover:text-primary transition-colors">{item}</Link></li>
+              <h5 className="font-black text-[10px] uppercase tracking-[0.2em] text-slate-400">Admissions</h5>
+              <ul className="space-y-4 font-bold text-sm text-slate-600">
+                {[
+                  { n: "Undergraduate", h: "/admissions" },
+                  { n: "Postgraduate", h: "/admissions" },
+                  { n: "Tuition & Fees", h: "/admissions" },
+                  { n: "Scholarships", h: "/admissions" },
+                  { n: "International", h: "/admissions" }
+                ].map(item => (
+                  <li key={item.n}><Link href={item.h} className="hover:text-primary transition-colors">{item.n}</Link></li>
                 ))}
               </ul>
             </div>
 
             <div className="space-y-6">
-              <h5 className="font-black text-xs uppercase tracking-[0.2em] text-slate-400">Support</h5>
-              <ul className="space-y-4 font-bold text-slate-600">
-                {["Help Center", "IT Desk", "Campus Safety", "Counseling", "Health Services"].map(item => (
-                  <li key={item}><Link href="#" className="hover:text-primary transition-colors">{item}</Link></li>
+              <h5 className="font-black text-[10px] uppercase tracking-[0.2em] text-slate-400">Support</h5>
+              <ul className="space-y-4 font-bold text-sm text-slate-600">
+                {[
+                  { n: "Help Center", h: "/contact" },
+                  { n: "IT Desk", h: "/contact" },
+                  { n: "Campus Safety", h: "/campus-life" },
+                  { n: "Counseling", h: "/contact" },
+                  { n: "Health Services", h: "/campus-life" }
+                ].map(item => (
+                  <li key={item.n}><Link href={item.h} className="hover:text-primary transition-colors">{item.n}</Link></li>
                 ))}
               </ul>
             </div>
           </div>
 
-          {/* Bottom Bar is essentially sticky by design in long content layouts */}
           <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex flex-wrap items-center justify-center gap-10 text-[10px] font-black uppercase tracking-widest text-slate-400">
               <p>© {new Date().getFullYear()} NOVACREST UNI</p>
@@ -415,11 +545,9 @@ export default function HomePage() {
               <Link href="#" className="hover:text-primary transition-colors">Terms</Link>
               <Link href="#" className="hover:text-primary transition-colors">Status</Link>
             </div>
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
-                <MapPin className="w-4 h-4 text-primary" />
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Crestview, USA</span>
-              </div>
+            <div className="flex items-center gap-2 px-5 py-2 bg-slate-50 rounded-xl border border-slate-100">
+              <MapPin className="w-4 h-4 text-primary" />
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Crestview, USA</span>
             </div>
           </div>
         </div>
@@ -427,5 +555,3 @@ export default function HomePage() {
     </div>
   )
 }
-
-
