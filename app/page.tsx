@@ -5,6 +5,7 @@ import Link from "next/link"
 import {
   GraduationCap,
   LogIn,
+  UserPlus,
   ChevronRight,
   Sparkles,
   Users,
@@ -97,6 +98,13 @@ const faculties = [
   { name: "Business", icon: BarChart3, count: "6 Programs", color: "bg-emerald-500" },
   { name: "Law", icon: ShieldCheck, count: "4 Departments", color: "bg-indigo-500" },
   { name: "Arts & Humanities", icon: BookOpen, count: "10 Departments", color: "bg-purple-500" },
+]
+
+const quickActions = [
+  { label: "Emergency", sub: "24/7 Response", icon: LifeBuoy, color: "text-red-500", border: "border-red-500/20" },
+  { label: "Apply Now", sub: "Admissions 2026", icon: UserPlus, color: "text-primary", border: "border-primary/20" },
+  { label: "Campus Map", sub: "Digital Hub", icon: MapPin, color: "text-emerald-500", border: "border-emerald-500/20" },
+  { label: "E-Library", sub: "24/7 Access", icon: BookOpen, color: "text-amber-500", border: "border-amber-500/20" },
 ]
 
 export default function HomePage() {
@@ -222,13 +230,13 @@ export default function HomePage() {
             <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[140px]" />
           </div>
 
-          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative pt-20 pb-12">
-            <div className="flex flex-col gap-16 lg:gap-24">
+          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative pt-12 lg:pt-20 pb-12">
+            <div className="flex flex-col gap-12 lg:gap-20">
               {/* Hero Content */}
-              <div className="max-w-4xl space-y-10">
+              <div className="max-w-4xl space-y-8 lg:space-y-10 text-center lg:text-left mx-auto lg:mx-0">
                 <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8 }}
                   className="space-y-6"
                 >
@@ -237,28 +245,28 @@ export default function HomePage() {
                     Shaping Tomorrow&apos;s Leaders Today
                   </div>
                   
-                  <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.85] tracking-tighter">
+                  <h1 className="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.85] tracking-tighter">
                     BE THE <span className="text-primary italic">FUTURE</span> <br /> OF INNOVATION.
                   </h1>
                   
-                  <p className="text-xl lg:text-2xl text-white/70 max-w-2xl font-medium leading-relaxed">
+                  <p className="text-lg lg:text-2xl text-white/70 max-w-2xl font-medium leading-relaxed mx-auto lg:mx-0">
                     Join a global community of thinkers, creators, and leaders at Africa&apos;s leading research-driven university. Your journey to excellence starts here.
                   </p>
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
-                  className="flex flex-wrap items-center gap-6"
+                  className="flex flex-wrap items-center justify-center lg:justify-start gap-4 lg:gap-6"
                 >
-                  <Button size="lg" className="h-16 px-10 rounded-2xl text-lg font-black shadow-2xl shadow-primary/40 group bg-primary text-white hover:bg-primary/90" asChild>
+                  <Button size="lg" className="h-14 lg:h-16 px-8 lg:px-10 rounded-2xl text-base lg:text-lg font-black shadow-2xl shadow-primary/40 group bg-primary text-white hover:bg-primary/90" asChild>
                     <Link href="/auth/signup">
                       Start Application
                       <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
-                  <Button size="lg" variant="ghost" className="h-16 px-10 rounded-2xl text-lg font-black border border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
+                  <Button size="lg" variant="ghost" className="h-14 lg:h-16 px-8 lg:px-10 rounded-2xl text-base lg:text-lg font-black border border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950 transition-all backdrop-blur-sm group" asChild>
                     <Link href="/auth/login">
                       Student Login
                       <LogIn className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -266,6 +274,30 @@ export default function HomePage() {
                   </Button>
                 </motion.div>
               </div>
+
+              {/* ─── QUICK ACCESS BAR (HEALTH CENTER MODEL) ──────────────── */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.8 }}
+                className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+              >
+                {quickActions.map((action, i) => (
+                  <Link 
+                    key={i}
+                    href="#" 
+                    className={`flex items-center gap-4 p-5 rounded-[2rem] bg-white/5 backdrop-blur-xl border ${action.border} hover:bg-white/10 transition-all group`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${action.color}`}>
+                      <action.icon className="w-5 h-5" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-black text-white">{action.label}</span>
+                      <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">{action.sub}</span>
+                    </div>
+                  </Link>
+                ))}
+              </motion.div>
 
               {/* ─── HORIZONTAL STATS CARD (GLASSMORPISM) ──────────────── */}
               <motion.div
